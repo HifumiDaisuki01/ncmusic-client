@@ -3,6 +3,14 @@
 Minecraft **Java 版 26.2 · Fabric** 客户端独立 Mod，无需服务器、无需外部 API 服务，
 直接在游戏内登录网易云音乐并播放。
 
+## 预览
+
+![我的歌单 - 顺序播放 / 随机播放](docs/screenshots/playlist.jpg)
+*歌单界面：完整加载 21 首歌曲，一键顺序/随机播放*
+
+![游戏中 HUD - 封面/歌词/进度](docs/screenshots/hud.jpg)
+*游戏内 HUD：右下角显示封面、歌名、歌词、播放进度，可换到任意角落*
+
 ## 安装
 
 1. 安装 Fabric Loader 0.19.5+（MC 26.2，需要 Java 25+）。

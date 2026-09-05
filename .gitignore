@@ -1,0 +1,15 @@
+# Gradle
+gradle-wrapper.jar
+/.gradle/
+/build/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store
+
+# local files
+ncmusic-browser-profile/

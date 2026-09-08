@@ -1,0 +1,54 @@
+plugins {
+	id 'fabric-loom' version '1.14.10'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+repositories {
+	// 阿里云镜像（Maven Central 镜像）
+	maven { url = 'https://maven.aliyun.com/repository/public' }
+	mavenCentral()
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	mappings loom.officialMojangMappings()
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+	// MP3 解码播放
+	implementation "javazoom:jlayer:1.0.1"
+	// 登录二维码生成
+	implementation "com.google.zxing:core:3.5.3"
+
+	// 打入 mod jar（jar-in-jar）
+	include "javazoom:jlayer:1.0.1"
+	include "com.google.zxing:core:3.5.3"
+}
+
+processResources {
+	def version = project.version
+	inputs.property "version", version
+
+	filesMatching("fabric.mod.json") {
+		expand "version": version
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = 21
+	it.options.encoding = "UTF-8"
+}
+
+java {
+	withSourcesJar()
+	sourceCompatibility = JavaVersion.VERSION_21
+	targetCompatibility = JavaVersion.VERSION_21
+}
+
+jar {
+	from("LICENSE") {
+		rename { "${it}_ncmusic-client" }
+	}
+}

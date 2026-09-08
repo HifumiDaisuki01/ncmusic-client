@@ -3,6 +3,9 @@ package net.ncmusic.ui.screen;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.MouseButtonEvent;
+import java.awt.Desktop;
+import java.net.URI;
 import net.minecraft.network.chat.Component;
 import net.ncmusic.config.NcmConfig;
 import net.ncmusic.netease.NcSong;
@@ -13,6 +16,8 @@ import net.ncmusic.ui.MusicHud;
 
 /** 主控制面板（默认按 M 打开） */
 public class MusicControlScreen extends Screen {
+	private static final String FOOTER_TEXT = "KeranTechnology © 2026   http://tech.keran.cc";
+	private static final String FOOTER_URL = "http://tech.keran.cc";
 	private final Screen parent;
 
 	public MusicControlScreen(Screen parent) {
@@ -135,8 +140,28 @@ public class MusicControlScreen extends Screen {
 				: "正在播放: " + cur.displayName() + "  " + MusicHud.fmtTime(player.getPositionMs())
 				+ " / " + MusicHud.fmtTime(player.getDurationMs());
 		g.drawString(this.font, now, this.width / 2 - this.font.width(now) / 2, this.height / 2 - 96, 0xFFFFFFFF, false);
+		int fy = this.height - 16;
+		String foot = FOOTER_TEXT;
+		int fx = this.width / 2 - this.font.width(foot) / 2;
+		boolean hover = mouseX >= fx && mouseX <= fx + this.font.width(foot) && mouseY >= fy - 1 && mouseY <= fy + 9;
+		g.drawString(this.font, foot, fx, fy, hover ? 0xFF4DB8FF : 0xFF8A8A8A, false);
 	}
 
+
+	@Override
+	public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
+		if (event.button() == 0 && event.y() >= this.height - 17 && event.y() <= this.height - 7) {
+			int fx = this.width / 2 - this.font.width(FOOTER_TEXT) / 2;
+			if (event.x() >= fx && event.x() <= fx + this.font.width(FOOTER_TEXT)) {
+				try {
+					if (Desktop.isDesktopSupported()) Desktop.getDesktop().browse(URI.create(FOOTER_URL));
+				} catch (Exception ignored) {
+				}
+				return true;
+			}
+		}
+		return super.mouseClicked(event, doubleClick);
+	}
 	@Override
 	public void onClose() {
 		this.minecraft.setScreen(parent);

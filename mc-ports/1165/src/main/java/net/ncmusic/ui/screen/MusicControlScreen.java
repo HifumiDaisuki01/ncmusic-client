@@ -4,6 +4,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
+import net.minecraft.util.Util;
 import net.ncmusic.config.NcmConfig;
 import net.ncmusic.netease.NcSong;
 import net.ncmusic.netease.NetEaseApi;
@@ -17,6 +18,8 @@ import net.ncmusic.ui.MusicHud;
  * 歌单、播放控制、HUD 显隐/角位/组件开关全部集中在本面板。
  */
 public class MusicControlScreen extends Screen {
+	private static final String FOOTER_TEXT = "KeranTechnology © 2026   http://tech.keran.cc";
+	private static final String FOOTER_URL = "http://tech.keran.cc";
 	private final Screen parent;
 
 	public MusicControlScreen(Screen parent) {
@@ -155,8 +158,25 @@ public class MusicControlScreen extends Screen {
 				: "正在播放: " + cur.displayName() + "  " + MusicHud.fmtTime(player.getPositionMs())
 				+ " / " + MusicHud.fmtTime(player.getDurationMs());
 		drawCenteredText(matrices, this.textRenderer, now, this.width / 2, this.height / 2 - 126, 0xFFFFFFFF);
+		int fy = this.height - 16;
+		String foot = FOOTER_TEXT;
+		int fx = this.width / 2 - this.textRenderer.getWidth(foot) / 2;
+		boolean hover = mouseX >= fx && mouseX <= fx + this.textRenderer.getWidth(foot) && mouseY >= fy - 1 && mouseY <= fy + 9;
+		this.textRenderer.draw(matrices, foot, fx, fy, hover ? 0xFF4DB8FF : 0xFF8A8A8A);
 	}
 
+
+	@Override
+	public boolean mouseClicked(double mouseX, double mouseY, int button) {
+		if (button == 0 && mouseY >= this.height - 17 && mouseY <= this.height - 7) {
+			int fx = this.width / 2 - this.textRenderer.getWidth(FOOTER_TEXT) / 2;
+			if (mouseX >= fx && mouseX <= fx + this.textRenderer.getWidth(FOOTER_TEXT)) {
+				Util.getOperatingSystem().open(FOOTER_URL);
+				return true;
+			}
+		}
+		return super.mouseClicked(mouseX, mouseY, button);
+	}
 	@Override
 	public void onClose() {
 		this.client.openScreen(parent);

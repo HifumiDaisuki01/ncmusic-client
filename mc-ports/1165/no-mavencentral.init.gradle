@@ -1,0 +1,15 @@
+// ncmusic-1165 专用 init 脚本：本环境无法直连 repo.maven.apache.org（TLS 被断）。
+// Loom 对 1.16.5 会注入独占仓库 "MavenCentralLWJGL"（仅 org.lwjgl 组）直连 maven central，
+// 并在配置阶段就解析，因此必须在任何项目求值前注册重定向。
+// 用法：gradle -I /root/work/ports/ncmusic-1165/no-mavencentral.init.gradle <task>
+gradle.beforeProject { project ->
+    project.repositories.configureEach { repo ->
+        if (repo instanceof org.gradle.api.artifacts.repositories.MavenArtifactRepository) {
+            def u = repo.url.toString()
+            if (u.startsWith('https://repo.maven.apache.org') || u.startsWith('http://repo.maven.apache.org')) {
+                logger.lifecycle("[maven-central-redirect] {} -> {}", u, 'https://maven.aliyun.com/repository/public')
+                repo.setUrl('https://maven.aliyun.com/repository/public')
+            }
+        }
+    }
+}

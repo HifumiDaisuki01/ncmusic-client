@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "ncmusic",
+  "version": "${version}",
+  "name": "NC Music Client (1.16.5)",
+  "description": "在客户端独立运行的网易云音乐播放器（MC 1.16.5 Fabric）：登录、搜索、歌单顺序/随机播放、封面/歌词/进度/列表 HUD。",
+  "authors": ["WorkBuddy"],
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["net.ncmusic.NcMusicClient"]
+  },
+  "depends": {
+    "fabricloader": ">=0.14.0",
+    "minecraft": "~1.16.5",
+    "fabric-api": ">=0.42.0",
+    "java": ">=11"
+  }
+}

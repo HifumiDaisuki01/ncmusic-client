@@ -1,0 +1,30 @@
+pluginManagement {
+    repositories {
+        maven { url = 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven { url = 'https://maven.aliyun.com/repository/public' }
+        maven { url = 'https://mirrors.cloud.tencent.com/nexus/repository/maven-public/' }
+        maven { url = 'https://maven.fabricmc.net/' }
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositories {
+        maven { url = 'https://maven.aliyun.com/repository/public' }
+        maven { url = 'https://mirrors.cloud.tencent.com/nexus/repository/maven-public/' }
+    }
+}
+
+// Fabric Loom 会把 org.lwjgl 通过 exclusiveContent 强制锁到它自建的
+// "MavenCentralLWJGL"（repo.maven.apache.org，本环境不可达）仓库上。
+// 这里在任何项目脚本执行前预注册同名仓库并指向可达镜像，Loom 检测到同名仓库后即跳过锁死逻辑。
+gradle.beforeProject { p ->
+    p.repositories.maven {
+        name = 'MavenCentralLWJGL'
+        url = 'https://maven.aliyun.com/repository/public'
+        content { includeGroup 'org.lwjgl' }
+    }
+}
+
+rootProject.name = 'ncmusic-client-1201'

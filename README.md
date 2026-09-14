@@ -3,6 +3,11 @@
 Minecraft **Java 版 · Fabric** 客户端独立 Mod，无需服务器、无需外部 API 服务，
 直接在游戏内登录网易云音乐并播放。
 
+[![Minecraft](https://img.shields.io/badge/Minecraft-%s-green.svg)](https://papermc.io)
+[![Paper](https://img.shields.io/badge/Paper-%s-blue.svg)](https://papermc.io)
+[![Java](https://img.shields.io/badge/Java-%s-orange.svg)](https://adoptium.net)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 ## 多版本支持
 
 | 游戏版本 | 需要 Java | Fabric API | 对应 jar |
